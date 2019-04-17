@@ -1,9 +1,9 @@
 # Automation-things
 Programs I have made to automate tasks and jobs that I have to do.
 
-## Mileage Reimbursement
+### Mileage Reimbursement
 
-* driving.c is a multithreaded c program that can be used to calculate the mileage reimbursement of multiple trips. The threading simply calculates the cost of all trips in parallel
+* driving.c is a multithreaded c program that can be used to calculate the mileage reimbursement of multiple trips. The threading simply calculates the cost of all trips in parallel.
 
 ```bash
 ./driving 9 .58 8
