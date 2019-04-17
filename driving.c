@@ -7,8 +7,7 @@ pthread_mutex_t m1 = PTHREAD_MUTEX_INITIALIZER;
 int trips =0.0;
 float rate = 0.0;
 void *miles(void* par){
-	char *cpar = (char*) par;
-	float miles = atof(cpar);
+	float miles = atof((char*) par);
 	pthread_mutex_lock(&m1);
 	total = miles*(rate)*trips;
 	printf("The total for this trip is: %.2f\n",total);		
