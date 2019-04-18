@@ -21,8 +21,8 @@ int main(int argc, char **argv){
 		return 0;
 	}
 	pthread_t tid[argc-1];
-	trips = atoi(argv[1]);
-	rate  = atof(argv[2]);
+	trips = atoi(argv[1]); //pass and get the number of trips
+	rate  = atof(argv[2]); // pass and get the rate
 	for(int i =0; i<argc-3;i++){
 		pthread_create(&tid[i],NULL, (void*)miles, argv[i+3]);	
 	}
