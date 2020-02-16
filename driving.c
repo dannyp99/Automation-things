@@ -11,7 +11,7 @@ void *miles(void* par){
 	float miles = atof((char*) par);//convert the param to the float needed.
 	pthread_mutex_lock(&m1);//Lock the critical section
 	total = miles*(rate)*trips;//Calculate the cost.
-	printf("The total for this trip is: %.2f\n",total);//Print the total		
+	printf("The total for this trip is: $%.2f\n",total);//Print the total		
 	pthread_mutex_unlock(&m1);//Unlock now that the critical section is clear
 	return NULL;
 }
