@@ -6,6 +6,7 @@ float total = 0.0;
 pthread_mutex_t m1 = PTHREAD_MUTEX_INITIALIZER;
 int trips =0.0;
 float rate = 0.0;
+
 void *miles(void* par){
 	float miles = atof((char*) par);//convert the param to the float needed.
 	pthread_mutex_lock(&m1);//Lock the critical section
