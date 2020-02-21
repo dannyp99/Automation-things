@@ -1,4 +1,4 @@
 #!/bin/bash
 brew install fish
-curl -L https://get.oh-my.fish | fish
-omf install bobthefish
+fish -c "$(curl -L https://get.oh-my.fish)" | python3 termInst.py
+echo "omf install bobthefish" | fish
