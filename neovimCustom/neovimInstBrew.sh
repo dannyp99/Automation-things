@@ -1,11 +1,15 @@
 #!/bin/bash
-sudo apt update
-sudo apt upgrade
-if [ ! -f "/usr/bin/nvim" ]; then
-	sudo apt install neovim
+if [ ! -f "/usr/local/bin/nvim" ]; then
+	brew install neovim
 	echo "neovim installed"
 else
 	echo "neovim already installed"
+fi
+if [ ! -f "/usr/local/bin/wget" ]; then
+	brew install wget
+	echo "wget installed"
+else
+	echo "wget already installed"
 fi
 
 if [ ! -d "$HOME/.config/nvim/colors" ]; then
