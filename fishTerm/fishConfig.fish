@@ -1,0 +1,26 @@
+set -g fish_user_paths "/usr/local/opt/gettext/bin" $fish_user_paths
+
+function mkcd
+	mkdir "$argv[1]"; cd "$argv[1]"
+end
+
+function append --no-scope-shadowing
+    if test (count $argv) -ne 2
+        echo append: Expected two arguments, (count $argv) received.
+        return 1
+    end
+    set -l __fish_value $$argv[1]
+    set $argv[1] "$__fish_value$argv[2]"
+end
+
+function up
+	set up 'cd '
+	if count $argv > /dev/null 
+		for x in (seq "$argv[1]")
+			append up '../'
+		end
+	else
+		append up '../'
+	end
+	eval $up
+end
