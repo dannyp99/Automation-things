@@ -7,7 +7,7 @@ else
 	echo "omf not installed"
 fi
 
-if [ -d "$HOME/.config/fish" ]; then
+if [ -f "/usr/bin/fish" ]; then
 	rm -rf ~/.config/fish
 	brew remove fish
 	echo "fish removed"
