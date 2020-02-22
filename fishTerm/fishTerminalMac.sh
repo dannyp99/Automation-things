@@ -3,7 +3,7 @@ if [ -d "$HOME/.config/omf" ]; then
 	echo "Everything installed!"
 	exit
 fi
-if [ ! -d "$HOME/.config/fish" ]; then
+if [ ! -f "/usr/local/bin/fish" ]; then
   brew install fish
 else
   echo "fish is already installed!"
