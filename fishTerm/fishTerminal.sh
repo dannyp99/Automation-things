@@ -18,9 +18,18 @@ for line in sys.stdin:
 	if "successfully installed" in line:
 		os.system("killall fish")
 EOF
+
+if [ ! -f "/usr/bin/curl" ]; then
+	sudo apt install curl
+fi
+
+if [ ! -f "/usr/bin/killall" ]; then
+	sudo apt install psmisc
+fi
 	fish -c "$(curl -L https://get.oh-my.fish)" | python3  -c "$myscript"
 	echo "omf install bobthefish" | fish
 else
 	echo "omf is already installed!"
 fi
+
 exit
