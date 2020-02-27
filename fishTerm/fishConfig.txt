@@ -17,10 +17,10 @@ function up
 	set up 'cd '
 	if count $argv > /dev/null 
 		for x in (seq "$argv[1]")
-			append up '../'
+			set up $up'../'
 		end
 	else
-		append up '../'
+		set up $up'../'
 	end
 	eval $up
 end
