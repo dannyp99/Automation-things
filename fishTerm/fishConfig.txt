@@ -24,3 +24,13 @@ function up
 	end
 	eval $up
 end
+
+function almightypush
+	if test (count $argv) = 1
+		git add -A
+		git commit -m "$argv[1]"
+		git push origin HEAD
+	else
+		echo "You need to pass a commit message in quotes \"\" as one argument"
+	end
+end
