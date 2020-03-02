@@ -13,3 +13,13 @@ function up(){
 	fi
 	eval "$back"
 }
+
+function almightypush(){
+	if [ "$#" -eq 1 ];then
+		git add -A
+		git commit -m "$1"
+		git push origin HEAD
+	else
+		echo "You need to pass a commit message in quotes \"\" as one argument"
+	fi
+}
