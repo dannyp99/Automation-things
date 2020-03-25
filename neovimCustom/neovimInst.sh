@@ -1,6 +1,10 @@
 #!/bin/bash
 sudo apt update
 sudo apt upgrade
+
+if [ ! -f "/usr/bin/wget" ]; then
+	sudo apt install wget
+fi
 if [ ! -f "/usr/bin/nvim" ]; then
 	sudo apt install neovim
 	echo "neovim installed"

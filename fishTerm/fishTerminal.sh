@@ -2,8 +2,10 @@
 sudo apt update
 sudo apt upgrade
 if [ -d "$HOME/.config/omf" ]; then
-	echo "Everything installed!"
-	exit
+	if [ -f "/etc/fonts/config.d/10-powerline-symbols.conf" ]; then
+		echo "Everything installed!"
+		exit
+	fi
 fi
 if [ ! -f "/usr/bin/fish" ]; then
   sudo apt install fish
@@ -32,4 +34,14 @@ else
 	echo "omf is already installed!"
 fi
 
+if [ ! -f "/usr/share/fonts/PowerlineSymbols.otf" ]; then
+	su -c 'pip install git+git://github.com/Lokaltog/powerline'
+	shell://github.com/Lokaltog/powerline/raw/develop/font/PowerlineSymbols.otf https://github.com/Lokaltog/powerline/raw/develop/font/10-powerline-symbols.conf
+	sudo mv PowerlineSymbols.otf /usr/share/fonts/
+	sudo fc-cache -vf
+fi
+
+if [ ! -f "/etc/fonts/config.d/10-powerline-symbols.conf" ]; then
+	sudo mv 10-powerline-symbols.conf /etc/fonts/conf.d/
+fi
 exit
