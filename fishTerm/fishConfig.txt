@@ -1,5 +1,16 @@
 set -g fish_user_paths "/usr/local/opt/gettext/bin" $fish_user_paths
 
+#alias and abbreviations
+thefuck --alias | source 
+alias l="ls"
+alias gits="git status"
+alias gitd="git diff"
+abbr -a -- - 'cd -'
+
+function freset
+	tput reset
+end
+
 function mkcd
 	mkdir "$argv[1]"; cd "$argv[1]"
 end
@@ -32,5 +43,27 @@ function almightypush
 		git push origin HEAD
 	else
 		echo "You need to pass a commit message in quotes \"\" as one argument"
+	end
+end
+
+function robi
+	if test -e /dev/cu.SLAB_USBtoUART
+		eval 'screen /dev/cu.SLAB_USBtoUART 115200'
+	else
+		echo "Robi not found on system"
+	end
+end
+
+function kiryudownload
+	if not test -e $HOME/Downloads/kiryu.mp4
+		youtube-dl "https://www.youtube.com/watch?v=YcAHHKY3Y0I" -o '$HOME/Downloads/kiryu.%(ext)s'
+	end
+end
+
+function kiryu --on-event fish_postexec
+	if test $status = 127
+		mpv $HOME/Downloads/kiryu.mp4 --length=2
+	else
+		:
 	end
 end
