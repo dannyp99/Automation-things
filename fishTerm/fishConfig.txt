@@ -41,6 +41,7 @@ function almightypush
 		git add -A
 		git commit -m "$argv[1]"
 		git push origin HEAD
+		open "https://www.youtube.com/watch?v=aYAhC8zn42E"
 	else
 		echo "You need to pass a commit message in quotes \"\" as one argument"
 	end
@@ -54,14 +55,11 @@ function robi
 	end
 end
 
-function kiryudownload
-	if not test -e $HOME/Downloads/kiryu.mp4
-		youtube-dl "https://www.youtube.com/watch?v=YcAHHKY3Y0I" -o '$HOME/Downloads/kiryu.%(ext)s'
-	end
-end
-
 function kiryu --on-event fish_postexec
 	if test $status = 127
+		if not test -e $HOME/Downloads/kiryu.mp4
+			youtube-dl "https://www.youtube.com/watch?v=YcAHHKY3Y0I" -o '$HOME/Downloads/kiryu.%(ext)s'
+		end
 		mpv $HOME/Downloads/kiryu.mp4 --length=2
 	else
 		:
