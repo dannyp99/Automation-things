@@ -30,6 +30,9 @@ fi
 if [[ -f "/usr/share/fonts/Fira\ Mono\ Regular\ Nerd\ Font\ Complete.otf" ]] || [[ -f "/usr/local/share/fonts/Fira\ Mono\ Regular\ Nerd\ Font\ Complete.otf" ]] || [[ -f "$HOME/.fonts/Fira\ Mono\ Regular\ Nerd\ Font\ Complete.otf" ]];then
 	echo "Fonts installed"
 else
+	if [[ ! -f "/bin/wget" ]];then
+		suod apt install wget
+	fi
 	wget -O $HOME/Downloads/Fira\ Mono\ Regular\ Nerd\ Font\ Complete.otf https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/FiraMono/Regular/complete/Fira%20Mono%20Regular%20Nerd%20Font%20Complete.otf?raw=true
 	xdg-open  $HOME/Downloads/Fira\ Mono\ Regular\ Nerd\ Font\ Complete.otf
 fi
