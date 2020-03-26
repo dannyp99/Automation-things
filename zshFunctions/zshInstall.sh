@@ -1,4 +1,10 @@
 #!/bin/bash
+if [[ $1 = "-h" ]];then
+	echo "-h 	help"
+	echo "--set-zsh		set zsh to defualt terminal"
+	exit
+fi
+
 if [[ -f "/usr/bin/zsh" ]] || [[ -f "/bin/zsh"]];then 
 	echo "zsh is already installed"
 else 
@@ -11,7 +17,11 @@ else
 	sh -c "\$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 fi
 
-if [[ -f $ZSH_CUSTOM/themes/powerlevel10k ]];then
+if [[ $1 = "--set-zsh" ]];then
+	chsh -s "$(which zsh)"
+fi
+
+if [[ -f "$ZSH_CUSTOM/themes/powerlevel10k" ]];then
 	echo "powerlevel10k is already installed"
 else
 	git clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
@@ -24,7 +34,7 @@ else
 	xdg-open  $HOME/Downloads/Fira\ Mono\ Regular\ Nerd\ Font\ Complete.otf
 fi
 
-if [[ -d $ZSH_CUSTOM/plugins/zsh-syntax-highlighting ]];then
+if [[ -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]];then
 	echo "plugin installed"
 else 
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
