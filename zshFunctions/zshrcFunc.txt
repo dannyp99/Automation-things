@@ -128,10 +128,7 @@ function almightypush(){
 }
 function kiryu(){
 	ret=$?
-	if [ $ret -eq 146 ]; then
-		exit 0
-	fi 
-	if [ $ret -ne 0 ];then 
+	if [[ $ret -eq 127 ]] || [[ $ret -eq 1 ]];then
 		if [[ ! -f "$HOME/Downloads/kiryu.mp4" ]];then
 			youtube-dl "https://www.youtube.com/watch?v=YcAHHKY3Y0I" -o '$HOME/Downloads/kiryu.%(ext)s'
 		fi
