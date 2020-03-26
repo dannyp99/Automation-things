@@ -95,6 +95,11 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+eval $(thefuck --alias)
+alias l="ls"
+alias gits="git status"
+alias gitd="git diff"
+alias -g - --="cd -"
 
 function mkcd(){
 	mkdir "$1"; cd "$1"
@@ -102,10 +107,10 @@ function mkcd(){
 
 function up(){
 	back="cd "
-	if [ "$1" = "" ]; then
+	if [ $1 = "" ]; then
 		back+="../"
 	else
-		for ((i=0; i < "$1"; i++)) do
+		for ((i=0; i < $1; i++)) do
 			back+="../"	
 		done
 	fi
