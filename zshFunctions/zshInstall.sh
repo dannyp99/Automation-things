@@ -5,7 +5,7 @@ if [[ $1 = "-h" ]];then
 	exit
 fi
 
-if [[ -f "/usr/bin/zsh" ]] || [[ -f "/bin/zsh"]];then 
+if [[ -f "/usr/bin/zsh" ]] || [[ -f "/bin/zshz" ]];then 
 	echo "zsh is already installed"
 else 
 	sudo apt install zsh
@@ -34,7 +34,8 @@ else
 		suod apt install wget
 	fi
 	wget -O $HOME/Downloads/Fira\ Mono\ Regular\ Nerd\ Font\ Complete.otf https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/FiraMono/Regular/complete/Fira%20Mono%20Regular%20Nerd%20Font%20Complete.otf?raw=true
-	xdg-open  $HOME/Downloads/Fira\ Mono\ Regular\ Nerd\ Font\ Complete.otf
+	sudo apt install font-manager
+	font-manager $HOME/Downloads/Fura\ Mono\ Regular\ Nerd\ Font\ Complete.otf
 fi
 
 if [[ -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]];then
