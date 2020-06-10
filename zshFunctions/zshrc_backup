@@ -2,20 +2,19 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/pi/.oh-my-zsh"
+export ZSH="/home/ubuntu/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="powerlevel10k/powerlevel10k"
-POWERLEVEL9K_MODE="nerdfont-complete"
+ZSH_THEME="robbyrussell"
 
 # Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME="powerlevel10k/powerlevel10k"
+# Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in $ZSH/themes/
 # If set to an empty array, this variable will have no effect.
-# ZSH_THEME="powerlevel10k/powerlevel10k"
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -43,7 +42,7 @@ POWERLEVEL9K_MODE="nerdfont-complete"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
+# ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # COMPLETION_WAITING_DOTS="true"
@@ -56,9 +55,7 @@ ENABLE_CORRECTION="true"
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
 # You can set one of the optional three formats:
-# "mm/dd/yyyy"
-"dd.mm.yyyy"
-"yyyy-mm-dd"
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 # or set a custom format using the strftime function format specifications,
 # see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
@@ -71,7 +68,7 @@ ENABLE_CORRECTION="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-syntax-highlighting)
+plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -100,60 +97,3 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-eval $(thefuck --alias)
-alias l="ls"
-alias gits="git status"
-alias gitd="git diff"
-alias -g - --="cd -"
-
-function mkcd(){
-	mkdir "$1"; cd "$1"
-}
-
-function up(){
-	back="cd "
-	if [[ $1 = "" ]]; then
-		back+="../"
-	else
-		for ((i=0; i < $1; i++)) do
-			back+="../"	
-		done
-	fi
-	eval "$back"
-}
-
-function almightypush(){
-	if [[ "$#" -eq 1 ]] && [[ $1 != "" ]];then
-		git add -A
-		git commit -m "$1"
-		git push origin HEAD
-		if [[ ! -f "$HOME/Downloads/push.mp4" ]];then
-			youtube-dl "https://www.youtube.com/watch?v=aYAhC8zn42E" -o '$HOME/Downloads/push.%(ext)s'
-		fi
-		mpv $HOME/Downloads/push.mp4 --length=3 --really-quiet
-	else
-		echo "You need to pass a commit message in quotes \"\" as one argument"
-	fi
-}
-
-function kiryu(){
-	ret=$?
-	if [[ $ret -eq 127 ]] 
-
- [[ $ret -eq 1 ]];then
-		if [[ ! -f "$HOME/Downloads/kiryu.mp4" ]];then
-			youtube-dl "https://www.youtube.com/watch?v=YcAHHKY3Y0I" -o '$HOME/Downloads/kiryu.%(ext)s'
-		fi
-		mpv $HOME/Downloads/kiryu.mp4 --length=2 --really-quiet
-	else 
-		:
-	fi
-}
-#use unset PROMPT_COMMAND to undo function call.
-#PROMPT_COMMAND="kiryu"
-#precmd() { eval "$PROMPT_COMMAND" }
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] 
-
- source ~/.p10k.zsh
