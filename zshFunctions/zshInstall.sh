@@ -15,7 +15,11 @@ fi
 if [[ -d "$HOME/.oh-my-zsh" ]];then
 	echo "oh-my-zsh is already installed"
 else
-	bash -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+	cat <<< "n" | bash -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+	if [ ! -f "/usr/bin/killall" ]; then
+		sudo apt install psmisc
+	fi
+	killall zsh
 fi
 
 if [[ -d "$HOME/.oh-my-zsh/themes/powerlevel10k" ]];then
