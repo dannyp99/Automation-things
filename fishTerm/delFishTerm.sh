@@ -9,8 +9,8 @@ fi
 
 if [ -f "/usr/bin/fish" ]; then
 	rm -rf ~/.config/fish
-	sudo apt purge fish
-	sudo apt autoremove
+	sudo apt -y purge fish
+	sudo apt -y autoremove
 	echo "fish removed"
 else
     echo "fish not installed"
