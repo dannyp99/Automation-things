@@ -21,7 +21,7 @@ if [ ! -f "$HOME/.config/nvim/colors/molokai.vim" ]; then
 	mv molokai.vim ~/.config/nvim/colors
 	echo "configuring neovim theme..."
 else
-	echo "color them already set"
+	echo "color theme already set"
 fi
 
 if [ ! -d "$HOME/.config/nvim/pack/vendor/start/nerdtree" ]; then

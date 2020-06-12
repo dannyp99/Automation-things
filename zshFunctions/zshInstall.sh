@@ -6,7 +6,7 @@ if [[ $1 = "-h" ]];then
 	exit
 fi
 
-if [[ -f "/usr/bin/zsh" ]] || [[ -f "/bin/zsh" ]];then 
+if {[[ -f "/usr/bin/zsh" ]] || [[ -f "/bin/zsh" ]]} && [[ -n $(which zsh) ]];then 
 	echo "zsh is already installed"
 else 
 	sudo apt -y install zsh
@@ -16,13 +16,13 @@ if [[ -d "$HOME/.oh-my-zsh" ]];then
 	echo "oh-my-zsh is already installed"
 else
 	cat <<< "n" | bash -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-	if [ ! -f "/usr/bin/killall" ]; then
-		sudo apt install psmisc
+	if [[ ! -f "/usr/bin/killall" ]] && [[ -z $(which killall) ]]; then
+		sudo apt -y install psmisc
 	fi
 	killall zsh
 fi
 
-if [[ -d "$HOME/.oh-my-zsh/themes/powerlevel10k" ]];then
+if [[ -d "$HOME/.oh-my-zsh/custom/themes/powerlevel10k" ]];then
 	echo "powerlevel10k is already installed"
 else
 	sudo git clone https://github.com/romkatv/powerlevel10k.git $HOME/.oh-my-zsh/themes/powerlevel10k
@@ -31,13 +31,13 @@ fi
 if [[ -f "/usr/share/fonts/Fira\ Mono\ Regular\ Nerd\ Font\ Complete.otf" ]] || [[ -f "/usr/local/share/fonts/Fira\ Mono\ Regular\ Nerd\ Font\ Complete.otf" ]] || [[ -f "$HOME/.fonts/Fira\ Mono\ Regular\ Nerd\ Font\ Complete.otf" ]];then
 	echo "Fonts installed already"
 else
-	if [[ ! -f "/bin/wget" ]];then
+	if [[ ! -f "/bin/wget" ]] && [[ -z $(which wget) ]];then
 		sudo apt -y install wget
 	fi
 	if [[ ! -f "$HOME/Downloads/Fira\ Mono\ Regular\ Nerd\ Font\ Complete.otf" ]] && { [[ $1 = "--font-manager" ]] || [[ $1 = "--install-font" ]]; };then
 		wget -O $HOME/Downloads/Fira\ Mono\ Regular\ Nerd\ Font\ Complete.otf https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/FiraMono/Regular/complete/Fira%20Mono%20Regular%20Nerd%20Font%20Complete.otf?raw=true
 	fi
-	if [[ $1 = "--font-manager" ]];then
+	if [[ $1 = "--font-manager" ]] && [[ -z $(which font-manager) ]] && [[ ! -f /usr/bin/font-manager ]];then
 		sudo apt -y install font-manager
 		font-manager $HOME/Downloads/Fura\ Mono\ Regular\ Nerd\ Font\ Complete.otf
 	elif [[ $1 = "--install-font" ]];then
@@ -45,7 +45,7 @@ else
 	fi
 fi
 
-if [[ -d "$HOME/.oh-my-zsh/plugins/zsh-syntax-highlighting" ]] && [[ -d "$HOME/.oh-my-zsh/plugins/zsh-autosuggestions" ]];then
+if [[ -d "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ]] && [[ -d "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ]];then
 	echo "plugin already installed"
 else 
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.oh-my-zsh/plugins/zsh-syntax-highlighting
@@ -57,3 +57,4 @@ else
 fi
 echo "All Done Please refresh your your terminal or open zsh and type 'source ~/.zshrc'"
 echo "If the fonts is not loaded config won't work. It should be in you $HOME/Downloads folder open it and select install!"
+exit
