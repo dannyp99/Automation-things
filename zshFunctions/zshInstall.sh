@@ -25,7 +25,7 @@ fi
 if [[ -d "$HOME/.oh-my-zsh/custom/themes/powerlevel10k" ]];then
 	echo "powerlevel10k is already installed"
 else
-	sudo git clone https://github.com/romkatv/powerlevel10k.git $HOME/.oh-my-zsh/themes/powerlevel10k
+	sudo git clone https://github.com/romkatv/powerlevel10k.git $HOME/.oh-my-zsh/custom/themes/powerlevel10k
 fi
 
 if [[ -f "/usr/share/fonts/Fira\ Mono\ Regular\ Nerd\ Font\ Complete.otf" ]] || [[ -f "/usr/local/share/fonts/Fira\ Mono\ Regular\ Nerd\ Font\ Complete.otf" ]] || [[ -f "$HOME/.fonts/Fira\ Mono\ Regular\ Nerd\ Font\ Complete.otf" ]];then
@@ -48,8 +48,8 @@ fi
 if [[ -d "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ]] && [[ -d "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ]];then
 	echo "plugin already installed"
 else 
-	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.oh-my-zsh/plugins/zsh-syntax-highlighting
-	git clone https://github.com/zsh-users/zsh-autosuggestions.git $HOME/.oh-my-zsh/plugins/zsh-autosuggestions
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+	git clone https://github.com/zsh-users/zsh-autosuggestions.git $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 	cp $HOME/.zshrc zshrc_backup
 	echo "backup created in current directory as zshrc_backup"
 	sed 's/ZSH_THEME.*/ZSH_THEME="powerlevel10k\/powerlevel10k"%POWERLEVEL9K_MODE="nerdfont-complete"/g' zshrc_backup | tr '%' '\n' > $HOME/.zshrc

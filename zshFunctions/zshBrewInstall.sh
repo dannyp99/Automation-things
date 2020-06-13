@@ -48,6 +48,7 @@ if [[ -d "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ]];then
 	echo "plugin installed"
 else 
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+	git clone https://github.com/zsh-users/zsh-autosuggestions.git $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 	cp $HOME/.zshrc zshrc_backup
 	sed -i '' 's/plugins=.*/plugins=(git zsh-autosuggestions zsh-syntax-highlighting)/' ~/.zshrc
 	sed 's/ZSH_THEME.*/ZSH_THEME="powerlevel10k\/powerlevel10k"|POWERLEVEL9K_MODE="nerdfont-complete"/g' zshrc_backup | tr '|' '\n' > $HOME/.zshrc
