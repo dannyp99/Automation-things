@@ -6,7 +6,7 @@ if [[ $1 = "-h" ]];then
 	exit
 fi
 
-if {[[ -f "/usr/bin/zsh" ]] || [[ -f "/bin/zsh" ]]} && [[ -n $(which zsh) ]];then 
+if [[ -n $(which zsh) ]] && { [[ -f "/usr/bin/zsh" ]] || [[ -f "/bin/zsh" ]]; };then
 	echo "zsh is already installed"
 else 
 	sudo apt -y install zsh
