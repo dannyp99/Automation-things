@@ -1,7 +1,7 @@
-#!/bin/zsh
-if [[ $1 = "-h" ]] || [[ --help ]];then
+#!/bin/bash
+if [[ $1 = "-h" ]] || [[ $1 = "--help" ]];then
 	echo "-h,--help			See all arguments for this script"
-	echo "--update-zshrc	modify current zshrc to be zshrcFunc.txt backup created (prev_zshrc)"
+	echo "--update-zshrc	Modify current zshrc to be zshrcFunc.txt backup created (prev_zshrc)"
 fi
 
 if [[ $1 = "--update-zshrc" ]];then

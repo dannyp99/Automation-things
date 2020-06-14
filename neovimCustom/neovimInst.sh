@@ -2,21 +2,21 @@
 sudo apt update
 sudo apt upgrade
 
-if [ ! -f "/usr/bin/wget" ]; then
+if [[ ! -f "/usr/bin/wget" ]]; then
 	sudo apt install wget
 fi
-if [ ! -f "/usr/bin/nvim" ]; then
+if [[ ! -f "/usr/bin/nvim" ]]; then
 	sudo apt install neovim
 	echo "neovim installed"
 else
 	echo "neovim already installed"
 fi
 
-if [ ! -d "$HOME/.config/nvim/colors" ]; then
+if [[ ! -d "$HOME/.config/nvim/colors" ]]; then
 	mkdir -p ~/.config/nvim/colors
 fi
 
-if [ ! -f "$HOME/.config/nvim/colors/molokai.vim" ]; then 
+if [[ ! -f "$HOME/.config/nvim/colors/molokai.vim" ]]; then
 	wget https://raw.githubusercontent.com/tomasr/molokai/master/colors/molokai.vim
 	mv molokai.vim ~/.config/nvim/colors
 	echo "configuring neovim theme..."
@@ -24,7 +24,7 @@ else
 	echo "color theme already set"
 fi
 
-if [ ! -d "$HOME/.config/nvim/pack/vendor/start/nerdtree" ]; then
+if [[ ! -d "$HOME/.config/nvim/pack/vendor/start/nerdtree" ]]; then
 	echo "configuring NERDTree..."
 	git clone https://github.com/preservim/nerdtree.git ~/.config/nvim/pack/vendor/start/nerdtree
 	cd ~/.config/nvim

@@ -1,8 +1,8 @@
 #!/bin/bash
-if [[ "$1" = "-h" ]];then
-	echo "-h 	help"
-	echo "--remove-all	remove all programs added through the install this includes wget"
-	echo "default running will remove oh-my-zsh as well as zsh"
+if [[ "$1" = "-h" ]] || [[ "$1" = "--help" ]];then
+	echo "-h,help 				View all arguments for the script"
+	echo "--remove-all			remove all programs added through the install this includes wget"
+	echo "						default running will remove oh-my-zsh as well as zsh"
 	exit
 fi
 

@@ -1,9 +1,9 @@
 #!/bin/bash
-if [[ "$1" = "-h" ]];then
-	echo "-h 					help"
-	echo "--remove-all			remove all programs added through the install this includes wget"
+if [[ "$1" = "-h" ]] || [[ "$1" = "--help" ]];then
+	echo "-h,help 				View all script argument options"
+	echo "--remove-all			Remove all programs added through the install this includes wget"
 	echo "						default running will remove oh-my-zsh as well as zsh"
-	echo "--clean-up			run brew cleanup to remove any unnecessary dependencies that were installed"
+	echo "--clean-up			Run brew cleanup to remove any unnecessary dependencies that were installed"
 	exit
 fi
 

@@ -1,8 +1,8 @@
 #!/bin/bash
-if [[ $1 = "-h" ]];then
-	echo "-h 	help"
-	echo "--font-manager	used if you need to install font manager"
-	echo "--install-font	open the downloaded font file to install to system"
+if [[ $1 = "-h" ]] || [[ $1 = "--help" ]];then
+	echo "-h,--help 				View all of the arguments for this script"
+	echo "--font-manager			Used if you need to install font manager"
+	echo "--install-font			Open the downloaded font file to install to system"
 	exit
 fi
 

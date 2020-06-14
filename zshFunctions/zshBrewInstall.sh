@@ -1,7 +1,7 @@
 #!/bin/bash
-if [[ $1 = "-h" ]];then
-	echo "-h 	help"
-	echo "--set-zsh		set zsh to defualt terminal"
+if [[ $1 = "-h" ]] || [[ $1 = "--help" ]];then
+	echo "-h,--help 		View all arguments for this bash script"
+	echo "--set-zsh			Set zsh to defualt terminal"
 	exit
 fi
 
