@@ -7,7 +7,11 @@ if [[ -f /usr/local/lib/python2.7/dist-packages/powerline/bindings/bash/powerlin
 fi
 
 function mkcd(){
-	mkdir "$1"; cd "$1"
+	mkdir "$1" && cd "$1"
+}
+
+function mvcd(){
+	mv "$1" "$2" && cd "$2"
 }
 
 function up(){

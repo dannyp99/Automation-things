@@ -12,8 +12,11 @@ function freset
 end
 
 function mkcd
-	mkdir "$argv[1]"; cd "$argv[1]"
+	mkdir "$argv[1]" && cd "$argv[1]"
 end
+
+function mvcd
+	mv "$argv[1]" "$argv[2]" && cd "$argv[2]"
 
 function append --no-scope-shadowing
     if test (count $argv) -ne 2
