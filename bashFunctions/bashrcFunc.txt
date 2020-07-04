@@ -1,8 +1,8 @@
-[[ -f ~/.fzf.bash ]] && source ~/.fzf.bash
-if [[ -f ~/.local/lib/python2.7/site-packages/powerline/bindings/bash/powerline.sh ]]; then
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+if [ -f ~/.local/lib/python2.7/site-packages/powerline/bindings/bash/powerline.sh ]; then
     source ~/.local/lib/python2.7/site-packages/powerline/bindings/bash/powerline.sh
 fi
-if [[ -f /usr/local/lib/python2.7/dist-packages/powerline/bindings/bash/powerline.sh ]]; then
+if [ -f /usr/local/lib/python2.7/dist-packages/powerline/bindings/bash/powerline.sh ]; then
     source /usr/local/lib/python2.7/dist-packages/powerline/bindings/bash/powerline.sh
 fi
 
@@ -31,13 +31,16 @@ function almightypush(){
 		git add -A
 		git commit -m "$1"
 		git push origin HEAD
+		if [[ ! -f "$HOME/Downloads/push.mp4" ]];then
+			youtube-dl "https://www.youtube.com/watch?v=aYAhC8zn42E" -o '$HOME/Downloads/push.%(ext)s'
+		fi
+		mpv "$HOME/Downloads/push.mp4" --really-quiet --length=3
 	else
 		echo "You need to pass a commit message in quotes \"\" as one argument"
 	fi
 }
 function kiryu(){
-	ret=$?
-	if [[ $ret -eq 127 ]] || [[ $ret -eq 1 ]];then 
+	if [[ $? -ne 0 ]];then 
 		if [[ ! -f "$HOME/Downloads/kiryu.mp4" ]];then
 			youtube-dl "https://www.youtube.com/watch?v=YcAHHKY3Y0I" -o '$HOME/Downloads/kiryu.%(ext)s'
 		fi
@@ -45,6 +48,10 @@ function kiryu(){
 	else 
 		:
 	fi
+}
+
+function logisim(){
+	java -jar $HOME/Downloads/logisim-evolution.jar
 }
 #use unset PROMPT_COMMAND to undo function call.
 PROMPT_COMMAND="kiryu"
