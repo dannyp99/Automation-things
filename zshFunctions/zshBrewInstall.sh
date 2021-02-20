@@ -12,7 +12,7 @@ if [[ -z $(which brew) ]] || [[ ! -f "/usr/local/bin/brew"  ]];then
 	exit
 fi
 
-if [[ -f "/usr/bin/zsh" ]] || [[ -f "/bin/zsh"]];then 
+if [[ -f "/usr/bin/zsh" ]] || [[ -f "/bin/zsh" ]];then 
 	echo "zsh is already installed"
 else 
 	brew install zsh
