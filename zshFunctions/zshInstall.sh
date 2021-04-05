@@ -34,6 +34,9 @@ else
 	if [[ ! -f "/bin/wget" ]] && [[ -z $(which wget) ]];then
 		sudo apt -y install wget
 	fi
+	if [[ ! -f "/usr/bin/curl" ]] || [[ -n $(which zsh) ]];then
+		sudo apt -y install curl
+	fi
 	if [[ ! -f "$HOME/Downloads/Fira\ Mono\ Regular\ Nerd\ Font\ Complete.otf" ]] && { [[ $1 = "--font-manager" ]] || [[ $1 = "--install-font" ]]; };then
 		wget -O $HOME/Downloads/Fira\ Mono\ Regular\ Nerd\ Font\ Complete.otf https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/FiraMono/Regular/complete/Fira%20Mono%20Regular%20Nerd%20Font%20Complete.otf?raw=true
 	fi
