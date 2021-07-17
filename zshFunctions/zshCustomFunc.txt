@@ -38,6 +38,19 @@ function almightypush(){
 	fi
 }
 
+function gitbrancher(){
+	length=${#1}
+	bN="$1"
+	for ((i=1; i < length; i++)) do
+		if [[ "${bN:$i:1}" == " " && ("${bN:$i+1:1}" == "-" || "${bN:$i-1:1}" == "-") ]];then
+			bN=${bN:0:$i}""${bN:$i+1}
+		elif [[ "${bN:$i:1}" == " " ]];then
+			bN=${bN:0:$i}"-"${bN:$i+1}		
+		fi
+	done
+	git checkout -b "$bN"
+}
+
 function kiryu(){
 	ret=$?
 	if [[ $ret -eq 127 ]] || [[ $ret -eq 1 ]];then
