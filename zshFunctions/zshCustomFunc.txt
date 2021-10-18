@@ -49,6 +49,7 @@ function gitbrancher(){
 			bN=${bN:0:$i}"-"${bN:$i+1}		
 		fi
 	done
+	bN="${bN,,}"
 	git checkout -b "$bN"
 }
 
