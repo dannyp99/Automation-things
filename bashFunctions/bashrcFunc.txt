@@ -40,17 +40,38 @@ function almightypush(){
 }
 
 function gitbrancher(){
-        length=${#1}
-        bN="$1"
-        for ((i=1; i < length; i++)) do
-                if [[ "${bN:$i:1}" == " " && ("${bN:$i+1:1}" == "-" || "${bN:$i-1:1}" == "-") ]];then
-                        bN=${bN:0:$i}""${bN:$i+1}
-                elif [[ "${bN:$i:1}" == " " ]];then
-                        bN=${bN:0:$i}"-"${bN:$i+1}
-                fi
-        done
-        bN="${bN,,}"
-        git checkout -b "$bN"
+	length=0
+	bN=""
+	if [[ $# -gt 1 ]]; then 
+		length=${#2}
+		bN="$2"
+	elif [[ $# -eq 1 ]]; then
+		length=${#1}
+		bN="$1"
+	else
+		echo "Please pass a string branch name ex. \" test branch\""
+		return
+	fi
+	for ((i=1; i < length; i++)) do
+		if [[ "${bN:$i:1}" == " " && ("${bN:$i+1:1}" == "-" || "${bN:$i-1:1}" == "-") ]];then
+			bN=${bN:0:$i}""${bN:$i+1}
+		elif [[ "${bN:$i:1}" == " " ]];then
+			bN=${bN:0:$i}"-"${bN:$i+1}		
+		fi
+	done
+	bN="${bN,,}"
+	while [ ! $# -eq 0 ]
+	do
+		case "$1" in
+			--test | -t)
+				echo "$bN"
+				return
+				exit
+				;;
+		esac
+		shift
+	done
+	git checkout -b "$bN"
 }
 
 function kiryu(){

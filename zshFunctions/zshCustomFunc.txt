@@ -40,8 +40,19 @@ function almightypush(){
 }
 
 function gitbrancher(){
-	length=${#1}
-	bN="$1"
+	length=0
+	typeset -l bN #zsh to enforce lowercase on all extension of bN
+	bN=""
+	if [[ $# -gt 1 ]]; then 
+		length=${#2}
+		bN="$2"
+	elif [[ $# -eq 1 ]]; then
+		length=${#1}
+		bN="$1"
+	else
+		echo "Please pass a string branch name ex. \" test branch\""
+		return
+	fi
 	for ((i=1; i < length; i++)) do
 		if [[ "${bN:$i:1}" == " " && ("${bN:$i+1:1}" == "-" || "${bN:$i-1:1}" == "-") ]];then
 			bN=${bN:0:$i}""${bN:$i+1}
@@ -49,7 +60,18 @@ function gitbrancher(){
 			bN=${bN:0:$i}"-"${bN:$i+1}		
 		fi
 	done
-	bN="${bN,,}"
+	#bN=`echo "$bN" | sed 's/./\L&/g'`
+	while [ ! $# -eq 0 ]
+	do
+		case "$1" in
+			--test | -t)
+				echo "$bN"
+				return
+				exit
+				;;
+		esac
+		shift
+	done
 	git checkout -b "$bN"
 }
 
