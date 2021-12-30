@@ -6,7 +6,8 @@ if [[ ! -f $HOME/.vim/autoload/plug.vim ]]; then
 fi
 
 if [[ ! -f $HOME/.vim/colors/PaperColor.vim ]];then 
-    wget https://raw.githubusercontent.com/NLKNguyen/papercolor-theme/master/colors/PaperColor.vim -O $HOME/.vim/colors/PaperColor.vim
+		curl -fLo $HOME/.vim/colors/PaperColor.vim --create-dirs \
+			https://raw.githubusercontent.com/NLKNguyen/papercolor-theme/master/colors/PaperColor.vim 
 fi
 
 if [[ ! -f $HOME/.vimrc ]];then
