@@ -1,11 +1,13 @@
+#!/bin/bash
+
 if [[ ! -f $HOME/.vim/autoload/plug.vim ]]; then
     curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs \
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
 
 if [[ ! -f $HOME/.vim/colors/PaperColor.vim ]];then 
-    https://raw.githubusercontent.com/NLKNguyen/papercolor-theme/master/colors/PaperColor.vim \
-        -O $HOME/.vim/colors/PaperColor.vim
+		curl -fLo $HOME/.vim/colors/PaperColor.vim --create-dirs \
+			https://raw.githubusercontent.com/NLKNguyen/papercolor-theme/master/colors/PaperColor.vim 
 fi
 
 if [[ ! -f $HOME/.vimrc ]];then
