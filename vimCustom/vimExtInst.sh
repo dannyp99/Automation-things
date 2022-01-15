@@ -19,7 +19,7 @@ if [[ ! -f $HOME/.vimrc ]];then
     echo "" >> $HOME/.vimrc
     echo "call plug#begin()" >> $HOME/.vimrc
     echo "" >> $HOME/.vimrc
-    echo "Plug 'https://github.com/preservim/nerdtree', { 'on': 'NERDTreeToggle' }" >> $HOME/.vimrc
+    echo "Plug 'https://github.com/scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }" >> $HOME/.vimrc
     echo "Plug 'https://github.com/vim-airline/vim-airline'" >> $HOME/.vimrc
     echo "" >> $HOME/.vimrc
     echo "call plug#end()" >> $HOME/.vimrc
