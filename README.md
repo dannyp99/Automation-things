@@ -22,3 +22,10 @@ We also allow multiple trips with the same number of trips i.e.
 
 Again we run ./driving and pass:
 **\<number of trips\>** **\<reimbursement rate\>** **\<Number of miles\>** **\<Number of miles\>** **\<Number of miles\>** ...
+
+## Alacritty
+
+The Alacritty.yaml is my personal configuration for Alacritty.
+
+`build.sh` exists to install/update alacritty. To properly utilize it, you just have to `mv build.sh <alacritty_repository_path>`. Once you have moved the script into the repository just run with a simple
+`./build.sh`
