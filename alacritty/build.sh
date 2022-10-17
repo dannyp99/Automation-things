@@ -1,7 +1,7 @@
 #!/bin/bash
 sudo apt update
 echo "Installing dependencies..."
-sudo apt install cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
+sudo apt install -y cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
 git fetch --tags
 git pull origin master
 latestTag=$(git describe --tags `git rev-list --tags --max-count=1`)
