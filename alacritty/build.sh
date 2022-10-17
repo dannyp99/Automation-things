@@ -1,5 +1,8 @@
 #!/bin/bash
+git fetch --tags
 git pull origin master
+latestTag=$(git describe --tags `git rev-list --tags --max-count=1`)
+git checkout $latestTag
 if [[ -f $(which cargo) ]];then
 	cargo build --release --no-default-features --features=x11
 else
@@ -33,4 +36,4 @@ if [[ ! -f ${ZDOTDIR:-~}/.zsh_functions/_alacritty ]];then
 	cp extra/completions/_alacritty ${ZDOTDIR:-~}/.zsh_functions/_alacritty
 fi
 
-
+git checkout master
