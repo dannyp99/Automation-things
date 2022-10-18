@@ -40,13 +40,33 @@ if [[ ! -f /usr/local/share/man/man1/alacritty.1.gz && ! -f /usr/local/share/man
 	gzip -c extra/alacritty-msg.man | sudo tee /usr/local/share/man/man1/alacritty-msg.1.gz > /dev/null
 fi
 
-if [[ ! -d ${ZDOTDIR:-~}/.zsh_functions ]];then
-	echo "Adding zsh completion"
-	mkdir -p ${ZDOTDIR:-~}/.zsh_functions
-	echo 'fpath+=${ZDOTDIR:-~}/.zsh_functions' >> ${ZDOTDIR:-~}/.zshrc
-fi
-if [[ ! -f ${ZDOTDIR:-~}/.zsh_functions/_alacritty ]];then
-	cp extra/completions/_alacritty ${ZDOTDIR:-~}/.zsh_functions/_alacritty
-fi
+case $SHELL in
+
+	/usr/bin/bash)
+		echo "Adding shell completion for bash"
+		if [[ ! -d $HOME/.bash_completion ]];then
+			mkdir -p ~/.bash_completion
+		fi
+		cp extra/completions/alacritty.bash ~/.bash_completion/alacritty
+		echo "source ~/.bash_completion/alacritty" >> ~/.bashrc
+		;;
+	/usr/bin/zsh)
+		echo "Adding shell completion for zsh"	
+		if [[ ! -d ${ZDOTDIR:-~}/.zsh_functions ]];then
+			mkdir -p ${ZDOTDIR:-~}/.zsh_functions
+			echo 'fpath+=${ZDOTDIR:-~}/.zsh_functions' >> ${ZDOTDIR:-~}/.zshrc
+		fi
+			cp extra/completions/_alacritty ${ZDOTDIR:-~}/.zsh_functions/_alacritty
+		;;
+	/usr/bin/fish)
+		echo "Adding shell completion for fish"
+		if [[ ! -d $HOME/.config/fish/completions ]];then 
+			mkdir -p $HOME/.config/fish/completions
+		fi
+		cp extra/completions/alacritty.fish $HOME/.config/fish/completions/alacritty.fish
+		;;
+	*)
+		;;
+esac
 
 git checkout master
