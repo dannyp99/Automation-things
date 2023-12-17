@@ -6,7 +6,9 @@ from dotenv import load_dotenv
 
 load_dotenv() # load contents of .env
 KEY = getenv('KEY') # Necessary API key
-START = url_parser.quote_plus('100 E 77th St, New York, NY')
+LOC_FILE = open("./loc.json", "r+") # File containing location information
+JSON_DATA = json.load(LOC_FILE)
+START = url_parser.quote_plus(JSON_DATA["start"])
 
 class Location:
 
@@ -22,20 +24,8 @@ class Location:
     def __str__(self):
         return str.format("{} located at: {} is {} miles from your location\n  {}", self.name, self.addr, self.dist, self.desc)
 
-locations = [
-    Location("Plue", "1575 Lexington Ave, New York, NY", 
-        desc="Thai restaurant, seasonal food with a good price"),
-    Location("Ferns", "166 1st Ave., New York, NY", 
-        desc="Comfort food restaurant"),
-    Location("Seoul Salon", "28 W 33rd St, New York, NY", 
-        desc="Korean restaurant that may be good for seafood and rice dishes"),
-    Location("Lou Yau Kee", "124 E 14th St, New York, NY", 
-        desc="Great Hainanese chicked rice, great portions, half off a second bowl weekends after 7pm & weekdays after 5pm"),
-    Location("Omusubi", "370 Lexington Ave., New York, NY", 
-        desc="Japanese snack station"),
-    Location("Urban Hawker", "135 W 50th St, New York, NY", 
-        desc="Singaporian restaurant with multiple stalls and shops")
-]
+json_locations = JSON_DATA["locations"]
+locations = [ Location(json_loc['name'], json_loc['addr'], json_loc['distance'], json_loc['description']) for json_loc in json_locations ]
 
 for loc in locations:
     request_str = str.format('https://www.mapquestapi.com/directions/v2/route?key={}&from={}&to={}', KEY, START, loc.url_addr)
@@ -47,7 +37,7 @@ for loc in locations:
     distance_to_loc = float(info['route']['distance'])
     # print(distance_to_loc) # print distance in miles
     loc.dist = float(distance_to_loc)
-
+print()
 locations.sort(key=lambda loc: loc.dist) # Sort locations by distancs
 for item in locations:
     print(item, end="\n\n")
