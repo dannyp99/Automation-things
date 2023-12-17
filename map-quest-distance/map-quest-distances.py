@@ -24,7 +24,9 @@ class Location:
     def __str__(self):
         return str.format("{} located at: {} is {} miles from your location\n  {}", self.name, self.addr, self.dist, self.desc)
 
-json_locations = JSON_DATA["locations"]
+json_locations = JSON_DATA["locations"] # Get locations array
+
+# List comprehension to convert to python class
 locations = [ Location(json_loc['name'], json_loc['addr'], json_loc['distance'], json_loc['description']) for json_loc in json_locations ]
 
 for loc in locations:
@@ -37,6 +39,7 @@ for loc in locations:
     distance_to_loc = float(info['route']['distance'])
     # print(distance_to_loc) # print distance in miles
     loc.dist = float(distance_to_loc)
+
 print()
 locations.sort(key=lambda loc: loc.dist) # Sort locations by distancs
 for item in locations:
