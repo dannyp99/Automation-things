@@ -17,3 +17,5 @@ for card in all_active_cards:
 
 for key in places_dict.keys():
   print(list_name_lookup[key] + " (" + str(len(places_dict[key])) + "): \n\t" + str.join("\n\t", places_dict[key]))
+# Should return the same results for Visiting as:
+    # cat restaurant-trello-clean.json | jq -r '.lists[1].id as $id | .cards[] | select(.closed==false) | select(.idList==$id).name'
