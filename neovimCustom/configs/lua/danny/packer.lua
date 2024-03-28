@@ -32,6 +32,9 @@ return require('packer').startup(function(use)
   use('theprimeagen/harpoon')
   use('mbbill/undotree')
   use('tpope/vim-fugitive')
+  use('feline-nvim/feline.nvim')
+  use('nvim-tree/nvim-web-devicons')
+  use('lewis6991/gitsigns.nvim')
 
   use {
 	  'VonHeikemen/lsp-zero.nvim',
@@ -53,6 +56,19 @@ return require('packer').startup(function(use)
 		  {'L3MON4D3/LuaSnip'},
 		  {'rafamadriz/friendly-snippets'},
 	  }
+  }
+
+  use {
+      "folke/which-key.nvim",
+      config = function()
+          vim.o.timeout = true
+          vim.o.timeoutlen = 300
+          require("which-key").setup {
+              -- your configuration comes here
+              -- or leave it empty to use the default settings
+              -- refer to the configuration section below
+          }
+      end
   }
 
 end)
