@@ -32,7 +32,7 @@ return require('packer').startup(function(use)
   use('theprimeagen/harpoon')
   use('mbbill/undotree')
   use('tpope/vim-fugitive')
-  use('feline-nvim/feline.nvim')
+  use('freddiehaddad/feline.nvim')
   use('nvim-tree/nvim-web-devicons')
   use('lewis6991/gitsigns.nvim')
 
