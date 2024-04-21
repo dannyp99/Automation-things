@@ -86,9 +86,6 @@ function kiryu(){
 		:
 	fi
 }
-function logisim(){
-	java -jar $HOME/Downloads/logisim-evolution.jar
-}
 #use unset PROMPT_COMMAND to undo function call.
 #PROMPT_COMMAND="kiryu"
 #precmd() { eval "$PROMPT_COMMAND" }
