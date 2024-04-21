@@ -4,7 +4,7 @@ lsp.preset("recommended")
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
-	ensure_installed = { 'rust_analyzer', 'tsserver' },
+	ensure_installed = { 'rust_analyzer' },
 	handlers = {
 		lsp.default_setup,
 		lua_ls = function()
