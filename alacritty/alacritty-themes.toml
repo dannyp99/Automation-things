@@ -1,0 +1,17 @@
+import = [
+  "/usr/lib/node_modules/alacritty-themes/themes/Kanagawa.toml"
+]
+
+[cursor.style]
+blinking = "Always"
+shape = "Underline"
+
+[font]
+size = 10
+
+  [font.normal]
+  family = "FiraMono Nerd Font"
+  style = "Regular"
+
+[window]
+opacity = 0.8
