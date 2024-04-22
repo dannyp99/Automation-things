@@ -1,5 +1,6 @@
 
 alias l="ls"
+alias la="ls -la"
 alias gits="git status"
 alias gitd="git diff"
 alias -g - --="cd -"
@@ -89,3 +90,5 @@ function kiryu(){
 #use unset PROMPT_COMMAND to undo function call.
 #PROMPT_COMMAND="kiryu"
 #precmd() { eval "$PROMPT_COMMAND" }
+# Custom exports, needed for jdtls managed by mason.nvim
+#export JDTLS_JVM_ARGS="-javaagent:$HOME/.local/share/nvim/mason/packages/jdtls/lombok.jar"
