@@ -48,7 +48,7 @@ else
 	fi
 fi
 
-if [[ -d "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ]] && [[ -d "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ]];then
+if [[ -d "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ]] && [[ -d "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ]] && [[ -d "$HOME/.oh-my-zsh/custom/plugins/fzf-zsh-plugin" ]];then
 	echo "plugin already installed"
 else 
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
@@ -59,9 +59,10 @@ else
 	sed 's/ZSH_THEME.*/ZSH_THEME="powerlevel10k\/powerlevel10k"%POWERLEVEL9K_MODE="nerdfont-complete"/g' zshrc_backup | tr '%' '\n' > $HOME/.zshrc
 	sed -i 's/plugins=.*/plugins=(git zsh-autosuggestions zsh-syntax-highlighting fzf-zsh-plugin)/' $HOME/.zshrc
     echo "FZF command configs"
-    echo "[ -f ~/.fzf.zsh ] && source ~/.fzf/fzf.zsh" >> "$HOME/.zshrc"
     echo "export FZF_DEFAULT_COMMAND='rg --files --follow --no-ignore-vcs --hidden -g \"!{node_modules/*,.git/*,target/*}\"'" >> "$HOME/.zshrc"
     echo "export FZF_ALT_C_COMMAND='find -type d \( -path \"*node_modules\" -prune -o -path \"*.git\" -prune \) -o -print'" >> "$HOME/.zshrc"
+    echo "export FZF_DEFAULT_OPTS='--preview-window right:50%:hidden:wrap --bind ctrl-/:toggle-preview'" >> "$HOME/.zshrc"
+    echo "[ -f ~/.fzf.zsh ] && source ~/.fzf/fzf.zsh" >> "$HOME/.zshrc"
 fi
 echo "All Done Please refresh your your terminal or open zsh and type 'source ~/.zshrc'"
 echo "If the fonts is not loaded config won't work. It should be in you $HOME/Downloads folder open it and select install!"
