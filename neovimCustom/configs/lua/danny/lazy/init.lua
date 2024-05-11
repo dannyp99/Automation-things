@@ -7,4 +7,11 @@ return {
             require("which-key").setup({})
         end
     },
+    {
+        'numToStr/Comment.nvim',
+        opts = {
+            -- add any options here
+        },
+        lazy = false,
+    }
 }
