@@ -59,9 +59,9 @@ else
 	sed 's/ZSH_THEME.*/ZSH_THEME="powerlevel10k\/powerlevel10k"%POWERLEVEL9K_MODE="nerdfont-complete"/g' zshrc_backup | tr '%' '\n' > $HOME/.zshrc
 	sed -i 's/plugins=.*/plugins=(git zsh-autosuggestions zsh-syntax-highlighting fzf-zsh-plugin)/' $HOME/.zshrc
     echo "FZF command configs"
-    echo "export FZF_DEFAULT_COMMAND='rg --files --follow --no-ignore-vcs --hidden -g \"!{node_modules/*,.git/*,target/*}\"'" >> "$HOME/.zshrc"
-    echo "export FZF_ALT_C_COMMAND='find -type d \( -path \"*node_modules\" -prune -o -path \"*.git\" -prune \) -o -print'" >> "$HOME/.zshrc"
-    echo "export FZF_DEFAULT_OPTS='--preview-window right:50%:hidden:wrap --bind ctrl-/:toggle-preview'" >> "$HOME/.zshrc"
+    echo "export FZF_DEFAULT_COMMAND='rg --files --follow --hidden -g \"!{**/node_modules/*,**/.git/*,**/target/*,**/build/*}\"'" >> "$HOME/.zshrc"
+    echo "export FZF_DEFAULT_OPTS='--preview \"batcat --style=numbers --color=always {}\" --preview-window right:50%:hidden:wrap --bind ctrl-/:toggle-preview'" >> "$HOME/.zshrc"
+    echo "export FZF_ALT_C_COMMAND='find -type d \( -path \"**/node_modules\" -prune -o -path \"**/.git\" -prune -o -path \"**/target\" -prune -o -path \"**/build\" \) -o -print'" >> "$HOME/.zshrc"
     echo "[ -f ~/.fzf.zsh ] && source ~/.fzf/fzf.zsh" >> "$HOME/.zshrc"
 fi
 echo "All Done Please refresh your your terminal or open zsh and type 'source ~/.zshrc'"
