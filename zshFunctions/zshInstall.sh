@@ -22,10 +22,11 @@ else
 	killall zsh
 fi
 
-if [[ -d "$HOME/.oh-my-zsh/custom/themes/powerlevel10k" ]];then
-	echo "powerlevel10k is already installed"
+if [[ -d "$HOME/.oh-my-zsh/custom/themes/powerlevel10k" ]] && [[ -f "$HOME/.oh-my-zsh/custom/themes/lambda-mod.zsh-theme" ]];then
+	echo "themes are already installed"
 else
 	sudo git clone https://github.com/romkatv/powerlevel10k.git $HOME/.oh-my-zsh/custom/themes/powerlevel10k
+    wget -O "$HOME/.oh-my-zsh/custom/themes/lambda-mod.zsh-theme" https://raw.githubusercontent.com/halfo/lambda-mod-zsh-theme/master/lambda-mod.zsh-theme
 fi
 
 if [[ -f "/usr/share/fonts/Fira\ Mono\ Regular\ Nerd\ Font\ Complete.otf" ]] || [[ -f "/usr/local/share/fonts/Fira\ Mono\ Regular\ Nerd\ Font\ Complete.otf" ]] || [[ -f "$HOME/.fonts/Fira\ Mono\ Regular\ Nerd\ Font\ Complete.otf" ]];then
@@ -37,15 +38,13 @@ else
 	if [[ ! -f "/usr/bin/curl" ]] || [[ -n $(which zsh) ]];then
 		sudo apt -y install curl
 	fi
-	if [[ ! -f "$HOME/Downloads/Fira\ Mono\ Regular\ Nerd\ Font\ Complete.otf" ]] && { [[ $1 = "--font-manager" ]] || [[ $1 = "--install-font" ]]; };then
-		wget -O $HOME/Downloads/Fira\ Mono\ Regular\ Nerd\ Font\ Complete.otf https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/FiraMono/Regular/complete/Fira%20Mono%20Regular%20Nerd%20Font%20Complete.otf?raw=true
-	fi
-	if [[ $1 = "--font-manager" ]] && [[ -z $(which font-manager) ]] && [[ ! -f /usr/bin/font-manager ]];then
-		sudo apt -y install font-manager
-		font-manager $HOME/Downloads/Fura\ Mono\ Regular\ Nerd\ Font\ Complete.otf
-	elif [[ $1 = "--install-font" ]];then
-		open $HOME/Downloads/Fura\ Mono\ Regular\ Nerd\ Font\ Complete.otf
-	fi
+fi
+
+if [[ ! -d "$HOME/.fzf" ]];then
+    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    $HOME/.fzf/install
+else
+    echo "FZF is already installed"
 fi
 
 if [[ -d "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ]] && [[ -d "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ]] && [[ -d "$HOME/.oh-my-zsh/custom/plugins/fzf-zsh-plugin" ]];then
@@ -56,7 +55,7 @@ else
     git clone --depth 1 https://github.com/unixorn/fzf-zsh-plugin.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-zsh-plugin
 	cp $HOME/.zshrc zshrc_backup
 	echo "backup created in current directory as zshrc_backup"
-	sed 's/ZSH_THEME.*/ZSH_THEME="powerlevel10k\/powerlevel10k"%POWERLEVEL9K_MODE="nerdfont-complete"/g' zshrc_backup | tr '%' '\n' > $HOME/.zshrc
+	sed 's/ZSH_THEME.*/ZSH_THEME="lambda-mod"/g' zshrc_backup | tr "%" "\n" > $HOME/.zshrc
 	sed -i 's/plugins=.*/plugins=(git zsh-autosuggestions zsh-syntax-highlighting fzf-zsh-plugin)/' $HOME/.zshrc
     echo "FZF command configs"
     echo "export FZF_DEFAULT_COMMAND='rg --files --follow --hidden -g \"!{**/node_modules/*,**/.git/*,**/target/*,**/build/*}\"'" >> "$HOME/.zshrc"
