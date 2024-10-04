@@ -27,6 +27,7 @@ function get_distro() {
 }
 
 function get_pkg_mngr() {
+    INSTALL_CMD=()
     case "$DISTRO_ID" in
         "debian"|"ubuntu"|"linuxmint")
             INSTALL_CMD=("apt", "install", "uninstall");;
@@ -37,12 +38,13 @@ function get_pkg_mngr() {
         "nixos")
             INSTALL_CMD=("nix-env", "i", "");; # [[ -z var ]]
         "Other"|*)
-            CMD_LIST=()
-            PKG_MNGR=""
-            INSTALL_CMD=""
-            echo "Unkown package manager, Please enter your package manager install and uninstall commands comma separated"
+            INSTALL_CMD=()
+            echo "Unkown package manager, Please enter your package manager install and uninstall commands"
             echo "Example for debian based systems: apt, install, uninstall --purge "
-            read -p "" INSTALL_CMD;;
+            read -p "What is the package manager you are using: " PKG_MNGR && INSTALL_CMD+=($PKG_MNGR);
+            read -p "What is the command for $PKG_MNGR to install: " INSTALL && INSTALL_CMD+=($INSTALL);
+            read -p "What is the command to uninstall for $PKG_MNGR: " UNINSTALL && INSTALL_CMD+=($UNINSTALL);
+            
     esac
 }
 
@@ -64,4 +66,4 @@ else
     PKG_MAN="brew"
 fi
 get_distro
-echo "Install Commands are: $INSTALL_CMD"
+echo "Install Commands are: ${INSTALL_CMD[@]}"
