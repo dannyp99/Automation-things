@@ -1,14 +1,9 @@
 #!/bin/bash
-_passback() { while [ 1 -lt $# ]; do printf '%q=%q;' "$1" "${!1}"; shift; done; return $1; }
-passback() { _passback "$@" "$?"; }
-_capture() { { out="$("${@:2}" 3<&-; "$2_" >&3)"; ret=$?; printf "%q=%q;" "$1" "$out"; } 3>&1; echo "(exit $ret)"; }
-capture() { eval "$(_capture "$@")"; }
 
 OS=""
 DISTRO_ID=""
 INSTALL_CMD=""
 
-function get_os_() { passback OS }
 function get_os() {
     unameOs="$(uname -s)"
     case "${unameOs}" in
@@ -17,12 +12,10 @@ function get_os() {
         *)  machine="Incompatible" && echo "OS not supported";;
     esac
     echo "Get OS result : $machine"
-    "$OS"="$machine";
+    OS="$machine";
 }
 # If it's Linux then we need to determine our package manager
-function get_distro_() { passback DISTRO_ID; }
 function get_distro() {
-    DISTRO_ID=""
     if [[ -f /etc/os-release ]];then
         source /etc/os-release
         DISTRO_ID="$ID"
@@ -30,26 +23,27 @@ function get_distro() {
         echo "Can't detect your Linux distro!"
         DISTRO_ID="Other"
     fi
+    get_pkg_mngr
 }
 
-function_get_pkg_mngr_() { passback INSTALL_CMD }
 function get_pkg_mngr() {
-    DISTRO_ID="$1"
-    INSTALL_CMD=""
     case "$DISTRO_ID" in
         "debian"|"ubuntu"|"linuxmint")
-            INSTALL_CMD="apt install";;
+            INSTALL_CMD=("apt", "install", "uninstall");;
         "fedora"|"rhel"|"amzn")
-            INSTALL_CMD="dnf install";;
+            INSTALL_CMD=("dnf", "install", "uninstall");;
         "arch"|"manjaro")
-            INSTALL_CMD="pacman -S";;
+            INSTALL_CMD=("pacman", "-S", "-Rcns");;
         "nixos")
-            INSTALL_CMD="nix-env i";;
+            INSTALL_CMD=("nix-env", "i", "");; # [[ -z var ]]
         "Other"|*)
-            echo "Unkown package manager"
-            read -p "Please enter your package manager install command" INSTALL_CMD;;
+            CMD_LIST=()
+            PKG_MNGR=""
+            INSTALL_CMD=""
+            echo "Unkown package manager, Please enter your package manager install and uninstall commands comma separated"
+            echo "Example for debian based systems: apt, install, uninstall --purge "
+            read -p "" INSTALL_CMD;;
     esac
-    return INSTALL_CMD;
 }
 
 function remove_omz() {
@@ -60,11 +54,14 @@ function remove_omz() {
         echo "oh-my-zsh is already deleted"
     fi
 }
-
+get_os
 echo "Detected: $OS"
 if [[ "$OS" == "Linux" ]];then
+    get_distro
     echo "Detected your Distro as: $DISTRO_ID"
 else
     echo "MacOS detected using homebrew...."
     PKG_MAN="brew"
 fi
+get_distro
+echo "Install Commands are: $INSTALL_CMD"
