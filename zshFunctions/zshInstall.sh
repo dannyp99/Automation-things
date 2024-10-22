@@ -19,7 +19,6 @@ else
 	if [[ ! -f "/usr/bin/killall" ]] && [[ -z $(which killall) ]]; then
 		sudo apt -y install psmisc
 	fi
-	killall zsh
 fi
 
 if [[ -d "$HOME/.oh-my-zsh/custom/themes/powerlevel10k" ]] && [[ -f "$HOME/.oh-my-zsh/custom/themes/lambda-mod.zsh-theme" ]];then
