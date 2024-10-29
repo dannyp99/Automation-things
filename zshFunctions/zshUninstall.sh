@@ -3,7 +3,7 @@
 ## TODO
 # Determine dependencies for install (ripgrep, fzf, git, bat)
 
-DRY_RUN=0
+DRY_RUN=1
 VALID_ARGS=$(getopt -o diru --long dry-run:,distro:,install,release-file:,uninstall -- "$@")
 if [[ $? -ne 0 ]];then
     exit 1
@@ -37,20 +37,16 @@ function handle_args() {
                 echo "distro set to $DISTRO_ID"
                 shift 2
                 ;;
-            -i | --install)
-                echo "Installing zsh custom configurations"
-                INSTALL=true
-                shift
-                ;;
             -r | --release-file)
                 RELEASE_FILE="$2"
                 echo "release-file set to $RELEASE_FILE"
                 shift 2
                 ;;
             -u | --uninstall)
-                INSTALL=false
                 echo "Uninstalling zsh custom configurations"
+                remove_omz
                 shift
+                exit 0
                 ;;
             --) shift;
                 break
@@ -111,8 +107,12 @@ function get_pkg_mngr() {
 
 function remove_omz() {
     if [[ -d "$HOME/.oh-my-zsh" ]];then
-        read -r -p "Remove oh-my-zsh? (y/n): " confirm && [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] ||  return;
-        rm -rf "$HOME/.oh-my-zsh"
+        read -r -p "Remove oh-my-zsh? (y/n): " confirm && [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]] || return;
+        if [[ $DRY_RUN -eq 0 ]];then
+            rm -rf "$HOME/.oh-my-zsh"
+        else
+            echo "dry-run: rm -rf $HOME/.oh-my-zsh"
+        fi
     else 
         echo "oh-my-zsh is already deleted"
     fi
@@ -140,7 +140,25 @@ function handle_install() {
 }
 
 function handle_plugins() {
-    echo "handle_plugins"
+    if [[ -d "$HOME/.oh-my-zsh" ]]; then
+        echo "OMZ is already installed"
+        return
+    else
+	    cp "$HOME/.zshrc" zshrc_backup
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+        git clone https://github.com/romkatv/powerlevel10k.git "$HOME/.oh-my-zsh/custom/themes/powerlevel10k"
+        wget -O "$HOME/.oh-my-zsh/custom/themes/lambda-mod.zsh-theme" https://raw.githubusercontent.com/halfo/lambda-mod-zsh-theme/master/lambda-mod.zsh-theme
+        git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+        git clone https://github.com/zsh-users/zsh-autosuggestions.git "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+        git clone --depth 1 https://github.com/unixorn/fzf-zsh-plugin.git "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-zsh-plugin"
+        sed 's/ZSH_THEME.*/ZSH_THEME="lambda-mod"/g' zshrc_backup | tr "%" "\n" > "$HOME/.zshrc"
+        sed -i 's/plugins=.*/plugins=(git zsh-autosuggestions zsh-syntax-highlighting fzf-zsh-plugin)/' "$HOME/.zshrc"
+        echo "FZF command configs"
+        echo "export FZF_DEFAULT_COMMAND='rg --files --follow --hidden -g \"!{**/node_modules/*,**/.git/*,**/target/*,**/build/*}\"'" >> "$HOME/.zshrc"
+        echo "export FZF_DEFAULT_OPTS='--preview \"batcat --style=numbers --color=always {}\" --preview-window right:50%:hidden:wrap --bind ctrl-/:toggle-preview'" >> "$HOME/.zshrc"
+        echo "export FZF_ALT_C_COMMAND='find -type d \( -path \"**/node_modules\" -prune -o -path \"**/.git\" -prune -o -path \"**/target\" -prune -o -path \"**/build\" \) -o -print'" >> "$HOME/.zshrc"
+        echo "[ -f ~/.fzf.zsh ] && source ~/.fzf/fzf.zsh" >> "$HOME/.zshrc"
+    fi
 }
 
 handle_args "$@"
@@ -159,4 +177,5 @@ else
     fi
     echo "Install Commands are: ${INSTALL_CMD[*]}"
     handle_install
+    handle_plugins
 fi
