@@ -4,7 +4,7 @@
 # Determine dependencies for install (ripgrep, fzf, git, bat)
 
 DRY_RUN=1
-VALID_ARGS=$(getopt -o diru --long dry-run:,distro:,install,release-file:,uninstall -- "$@")
+VALID_ARGS=$(getopt -o dhru --long dry-run:,distro:,help,release-file:,uninstall -- "$@")
 if [[ $? -ne 0 ]];then
     exit 1
 fi
@@ -16,39 +16,51 @@ RELEASE_FILE=""
 ZSH_DEPENDENCIES=("git" "ripgrep" "bat")
 
 function help_function() {
-    echo " "
-    echo ""
-    echo ""
-    echo ""
-    echo ""
+    echo "--dry-run                                 Set to =0 to ensure commands are actually run and =1 for debugging"
+    echo "-d, --distro <DISTRO_ID>                  Set the id of your linux distro"
+    echo "-h, --help                                Print this help menu"
+    echo "-r, --release-file <RELEASE_FILE_PATH>    Set the location of the release file. Defaults to /etc/os-release"
+    echo "-u, --uninstall                           Use to uninstall zsh customization. System level packages that were installed via package manager are not removed"
+    exit 0
 }
 
 function handle_args() {
     eval set -- "$VALID_ARGS"
     while true; do
         case "$1" in
+            -h|--help)
+                shift
+                help_function
+                ;;
             --dry-run)
-                DRY_RUN="$2"
                 echo "dry-run set to $DRY_RUN"
                 shift 2
                 ;;
-            -d | --distro)
+            -d)
+                DISTRO_ID="$3"
+                shift
+                ;;
+            --distro)
                 DISTRO_ID="$2"
-                echo "distro set to $DISTRO_ID"
                 shift 2
                 ;;
-            -r | --release-file)
+            -r)
+                RELEASE_FILE="$3"
+                echo "release-file set to $RELEASE_FILE"
+                shift
+                ;;
+            --release-file)
                 RELEASE_FILE="$2"
                 echo "release-file set to $RELEASE_FILE"
                 shift 2
                 ;;
-            -u | --uninstall)
+            -u |--uninstall)
                 echo "Uninstalling zsh custom configurations"
-                remove_omz
                 shift
-                exit 0
+                remove_omz
                 ;;
-            --) shift;
+            --)
+                shift;
                 break
                 ;;
         esac
@@ -80,7 +92,6 @@ function get_distro() {
         echo "Can't detect your Linux distro!"
         DISTRO_ID="Other"
     fi
-    get_pkg_mngr
 }
 
 function get_pkg_mngr() {
@@ -101,7 +112,6 @@ function get_pkg_mngr() {
             read -r -p "What is the package manager you are using: " PKG_MNGR && INSTALL_CMD+=("$PKG_MNGR");
             read -r -p "What is the command for $PKG_MNGR to install: " INSTALL && INSTALL_CMD+=("$INSTALL");
             read -r -p "What is the command to uninstall for $PKG_MNGR: " UNINSTALL && INSTALL_CMD+=("$UNINSTALL");
-            
     esac
 }
 
@@ -116,6 +126,13 @@ function remove_omz() {
     else 
         echo "oh-my-zsh is already deleted"
     fi
+    get_distro
+    get_pkg_mngr
+    if [[ -n "${INSTALL_CMD[2]}" ]];then
+        echo "If you wish to remove packages installed try running: sudo ${INSTALL_CMD[0]} ${INSTALL_CMD[2]} ${ZSH_DEPENDENCIES[*]} zsh"
+        printf "You might also want to remove fzf with\n\trm -rf ~/.fzf\n"
+    fi
+    exit 0
 }
 
 function handle_install() {
@@ -128,7 +145,8 @@ function handle_install() {
     eval "sudo ${INSTALL_CMD[*]:0:$end_idx} ${ZSH_DEPENDENCIES[*]}"
     if [[ ! -d "$HOME/.fzf/" ]];then
         echo "Install FZF from Source"
-        eval "git clone https://github.com/junegunn/fzf.git $HOME/.fzf"
+        git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
+        "$HOME/.fzf/install"
     else
         echo "FZF already installed"
     fi
@@ -151,19 +169,23 @@ function handle_plugins() {
         git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
         git clone https://github.com/zsh-users/zsh-autosuggestions.git "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
         git clone --depth 1 https://github.com/unixorn/fzf-zsh-plugin.git "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-zsh-plugin"
-        sed 's/ZSH_THEME.*/ZSH_THEME="lambda-mod"/g' zshrc_backup | tr "%" "\n" > "$HOME/.zshrc"
-        sed -i 's/plugins=.*/plugins=(git zsh-autosuggestions zsh-syntax-highlighting fzf-zsh-plugin)/' "$HOME/.zshrc"
-        echo "FZF command configs"
-        echo "export FZF_DEFAULT_COMMAND='rg --files --follow --hidden -g \"!{**/node_modules/*,**/.git/*,**/target/*,**/build/*}\"'" >> "$HOME/.zshrc"
-        echo "export FZF_DEFAULT_OPTS='--preview \"batcat --style=numbers --color=always {}\" --preview-window right:50%:hidden:wrap --bind ctrl-/:toggle-preview'" >> "$HOME/.zshrc"
-        echo "export FZF_ALT_C_COMMAND='find -type d \( -path \"**/node_modules\" -prune -o -path \"**/.git\" -prune -o -path \"**/target\" -prune -o -path \"**/build\" \) -o -print'" >> "$HOME/.zshrc"
-        echo "[ -f ~/.fzf.zsh ] && source ~/.fzf/fzf.zsh" >> "$HOME/.zshrc"
+        cp ./zshrc ~/.zshrc
+        # Commented out while an existing zsh file is being maintianed
+        # sed 's/ZSH_THEME.*/ZSH_THEME="lambda-mod"/g' zshrc_backup | tr "%" "\n" > "$HOME/.zshrc"
+        # sed -i 's/plugins=.*/plugins=(git zsh-autosuggestions zsh-syntax-highlighting fzf-zsh-plugin)/' "$HOME/.zshrc"
+        # echo "FZF command configs"
+        # echo "export FZF_DEFAULT_COMMAND='rg --files --follow --hidden -g \"!{**/node_modules/*,**/.git/*,**/target/*,**/build/*}\"'" >> "$HOME/.zshrc"
+        # echo "export FZF_DEFAULT_OPTS='--preview \"batcat --style=numbers --color=always {}\" --preview-window right:50%:hidden:wrap --bind ctrl-/:toggle-preview'" >> "$HOME/.zshrc"
+        # echo "export FZF_ALT_C_COMMAND='find -type d \( -path \"**/node_modules\" -prune -o -path \"**/.git\" -prune -o -path \"**/target\" -prune -o -path \"**/build\" \) -o -print'" >> "$HOME/.zshrc"
+        # echo "[ -f ~/.fzf.zsh ] && source ~/.fzf/fzf.zsh" >> "$HOME/.zshrc"
     fi
 }
 
 handle_args "$@"
 if [[ -n "$DISTRO_ID" ]];then
     get_pkg_mngr
+    handle_install
+    handle_plugins
     exit 0
 else
     get_os
@@ -171,6 +193,7 @@ else
     if [[ "$OS" == "Linux" ]];then
         get_distro
         echo "Detected your Distro as: $DISTRO_ID"
+        get_pkg_mngr
     else
         echo "MacOS detected using homebrew...."
         INSTALL_CMD=("brew" "install" "uninstall")
